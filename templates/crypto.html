@@ -1,0 +1,141 @@
+<!--
+  __    ___    __    __   _    _____   __    ___
+ / /\  | |_)  / /\  ( (` | |_|  | |   / /\  | | \
+/_/--\ |_| \ /_/--\ _)_) |_| |  |_|  /_/--\ |_|_/
+
+*** Product Name:    Sci-Fi Game UI
+*** Description:     UI elements pack for Sci-Fi games.
+*** Author:          Arashtad
+*** Author URI:      https://arashtad.com
+*** Version:         1.0.0
+*** Creation Date:   Nov 21, 2022
+*** License:         GNU General Public License V3
+*** Copyright:       (C) 2022 - Arashtad.com. All Rights Reserved.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="keywords"
+      content="scifi, ui pack, ui framework, sci-fi framework, sci-fi elements pack"
+    />
+    <meta
+      name="description"
+      content="Arashtad Sci-Fi UI Elements Pack is a free and open source product suitable for Sci-Fi type web pages, games, etc."
+    />
+    <title>Crypto Project</title>
+    <link rel="stylesheet" href="../css/master.min.css">
+    <link rel="stylesheet" href="../css/overlay-scrollbars.min.css">
+    <link rel="stylesheet" href="../fonts/fontawesome-4.7.0/css/font-awesome.min.css">
+    
+    <!-- custom -->
+    <link rel="stylesheet" href="../css/custom.css" />
+  </head>
+  <body>
+    <a href="../" class="ar-button small margin">
+      <span class="fa fa-home"></span> Home
+    </a>
+    <main>
+      <div class="ar-container">
+        <h1 class="center">Crypto Project</h1>
+        <div class="spacer-20"></div>
+
+        <h3 class="center warning">api.coingecko.com</h3>
+        
+        <div class="ar-table">
+            <!-- t-head -->
+          <div class="ar-table-row t-head">
+            <div class="ar-table-head">name</div>
+            <div class="ar-table-head">price</div>
+            <div class="ar-table-head">24h</div>
+            <div class="ar-table-head hide-in-mobile">market cap</div>
+          </div>
+
+          <!-- t-body -->
+          <div class="t-body">
+
+          </div>
+        </div>
+
+        <div class="spacer-20"></div>
+      </div>
+    </main>
+    <footer>
+      <div class="ar-block center">
+        &copy; 2023 - <a href="https://arashtad.com">Arashtad.com</a>. All
+        Rights Reserved.
+      </div>
+    </footer>
+
+
+    <!-- preloader -->
+    <div class="ar-preloader">
+        <div class="ar-preloader-wrapper">
+            <ul>
+                <li>Loading</li>
+                <li>.</li>
+                <li>.</li>
+                <li>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+      function formatCurrency(item) {
+        const amount = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        });
+        return amount.format(item);
+      }
+
+      coins()
+
+      async function coins() {
+        // get t-body
+        const tbody = document.querySelector('.t-body')
+        tbody.innerHTML = ''
+
+        // send request
+        const coinAPI = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false");
+        const response = await coinAPI.json();
+
+        // change preloader display
+        if (response.length){
+            document.querySelector('.ar-preloader').classList.add('d-none')
+        }
+
+        // render data in DOM
+        response.map((item) => {
+            tbody.innerHTML += `<div class="ar-table-row">
+              <div class="ar-table-cell coin-name">
+                <img
+                  src="${item.image}"
+                  alt="coin name"
+                />
+                <div>
+                  <span>${item.name}</span>
+                  <span>${item.symbol}</span>
+                </div>
+              </div>
+
+              <div class="ar-table-cell">${formatCurrency(item.current_price)}</div>
+              <div class="ar-table-cell hide-in-mobile">
+                ${formatCurrency(item.high_24h)}
+              </div>
+              <div class="ar-table-cell hide-in-mobile hide-in-tablet">${formatCurrency(item.market_cap)}</div>
+            </div>`
+        });
+      }
+    </script>
+
+    <script src="../js/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
+    <script src="../js/overlay-scrollbars.min.js"></script>
+    <script src="../js/custom-jquery.js"></script>
+  </body>
+</html>

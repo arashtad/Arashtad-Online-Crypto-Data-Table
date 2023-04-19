@@ -1,0 +1,155 @@
+<!--
+  __    ___    __    __   _    _____   __    ___
+ / /\  | |_)  / /\  ( (` | |_|  | |   / /\  | | \
+/_/--\ |_| \ /_/--\ _)_) |_| |  |_|  /_/--\ |_|_/
+
+*** Product Name:    Sci-Fi Game UI
+*** Description:     UI elements pack for Sci-Fi games.
+*** Author:          Arashtad
+*** Author URI:      https://arashtad.com
+*** Version:         1.0.0
+*** Creation Date:   Nov 21, 2022
+*** License:         GNU General Public License V3
+*** Copyright:       (C) 2022 - Arashtad.com. All Rights Reserved.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="scifi, ui pack, ui framework, sci-fi framework, sci-fi elements pack">
+    <meta name="description" content="Arashtad Sci-Fi UI Elements Pack is a free and open source product suitable for Sci-Fi type web pages, games, etc.">
+    <title>To-do List</title>
+    <link rel="stylesheet" href="../css/master.min.css">
+    <link rel="stylesheet" href="../css/overlay-scrollbars.min.css">
+    <link rel="stylesheet" href="../fonts/fontawesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <a href="../" class="ar-button small margin">
+        <span class="fa fa-home"></span> Home
+    </a>
+    <main>
+        <div class="ar-container">
+            <h1 class="center">
+                To-do List
+            </h1>
+            <p class="center warning">
+                This is a simple to-do list form example.
+            </p>
+
+            <div class="spacer-20"></div>
+
+            <div class="ar-box medium">
+                <div class="ar-box-block">
+                    <div class="ar-box-content">
+                        <div class="ar-box-fixer-1"></div>
+                        <div class="ar-box-title">
+                            Arashtad To-do List
+                        </div>
+                        <div class="clear"></div>
+                        <div class="ar-grid">
+                            <div class="ar-grid-row">
+                                <div class="ar-grid-cell">
+                                    <ul id="todoitemlist" class="ar-list"></ul>
+                                </div>
+                                <div id="ar-grid-cell" class="ar-grid-cell">
+                                    <div id="message"></div>
+                                    <div class="clear"></div>
+                                    <form action="" method="">
+                                        <textarea name="" id="todoitem" cols="30" rows="10" value=""></textarea>
+                                        <div class="clear"></div>
+                                            <input onclick="save()" type="submit" name="submit" value="Save">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ar-box-fixer-2"></div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="ar-block center">
+            &copy; 2023 - <a href="https://arashtad.com">Arashtad.com</a>. All Rights Reserved.
+        </div>
+    </footer>
+    <script>
+        function hasKey(key){
+            const item = window.localStorage.getItem(key)
+            if(!item){
+                return false
+                }else{
+                return true
+                }
+            }
+
+        function setItemInLS(key, value) {
+            localStorage.setItem(key, value);
+            }
+
+        function getItemInLS(key) {
+            if (hasKey(key)) {
+                let item = localStorage.getItem(key);
+                return item;
+                }
+            return false;
+            }
+
+        function save(){
+            let text = document.getElementById('todoitem').value
+            if (text == ""){
+                let message = `
+                    <div class="message warning">Warning message. No text entered</div>
+                `
+                setItemInLS('message',message)
+                
+                }else{
+                let message = `
+                    <div id="success" class="message success">Success.</div>
+                `
+                document.getElementById("message").innerHTML = message
+                setItemInLS('message',message)
+                setItemInLS(text, text)
+                }
+            
+            }
+
+        function remove_item(index){
+            window.localStorage.removeItem(localStorage.key(index))
+            location.reload()
+            }
+
+        document.addEventListener('DOMContentLoaded',(event) =>{
+            for (let i = 0 ; i < localStorage.length ; i++){
+                if(localStorage.key(i) != "message"){
+                    let todo_item = localStorage.key(i)
+                    let todo_html = `
+                    <li>
+                        <span>
+                            <span class="fa fa-angle-right"></span>
+                            <span class="warning">${todo_item}</span>
+                            <span id="${i}" onclick="remove_item(${i})" class="fa fa-trash inline-block float-right"></span>
+                        </span>
+                    </li>
+                    ` 
+                    document.getElementById("todoitemlist").innerHTML += todo_html
+                    }   
+                
+                message = getItemInLS('message')
+                if(!message){
+                    let message = 
+                        `<div id="success" class="message success">Please Enter a todo list item.</div>`
+                    document.getElementById("message").innerHTML = message
+                    }else{
+                        document.getElementById("message").innerHTML = message
+                        }
+                    }
+            })       
+    </script>
+</body>
+</html>

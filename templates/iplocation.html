@@ -1,0 +1,129 @@
+<!--
+  __    ___    __    __   _    _____   __    ___
+ / /\  | |_)  / /\  ( (` | |_|  | |   / /\  | | \
+/_/--\ |_| \ /_/--\ _)_) |_| |  |_|  /_/--\ |_|_/
+
+*** Product Name:    Sci-Fi Game UI
+*** Description:     UI elements pack for Sci-Fi games.
+*** Author:          Arashtad
+*** Author URI:      https://arashtad.com
+*** Version:         1.0.0
+*** Creation Date:   Nov 21, 2022
+*** License:         GNU General Public License V3
+*** Copyright:       (C) 2022 - Arashtad.com. All Rights Reserved.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="keywords"
+      content="scifi, ui pack, ui framework, sci-fi framework, sci-fi elements pack"
+    />
+    <meta
+      name="description"
+      content="Arashtad Sci-Fi UI Elements Pack is a free and open source product suitable for Sci-Fi type web pages, games, etc."
+    />
+    <title>Boxes</title>
+    <link rel="stylesheet" href="../css/master.min.css" />
+    <link rel="stylesheet" href="../css/overlay-scrollbars.min.css" />
+    <link
+      rel="stylesheet"
+      href="../fonts/fontawesome-4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="../css/custom.css" />
+  </head>
+  <body>
+    <a href="../" class="ar-button small margin">
+      <span class="fa fa-home"></span> Home
+    </a>
+    <main>
+      <div class="ar-container">
+        <h1 class="center">Iplocation Project</h1>
+
+        <div class="spacer-20"></div>
+
+        <div class="ar-box thin">
+          <div class="ar-box-block">
+            <div class="ar-box-content">
+              <div class="ar-box-fixer-1"></div>
+              <div class="ar-card-block center">
+                <img class="country_flag"
+                  src="https://ipgeolocation.io/static/flags/de_64.png"
+                  alt=""
+                />
+              </div>
+              <div class="d-flex">
+                <h6 class="warning">Country:</h6>
+                <h6 class="country_name mx-4">Germany</h6>
+              </div>
+              <div class="d-flex">
+                <h6 class="warning">Country Capital:</h6>
+                <h6 class="country_capital mx-4">Berlin</h6>
+              </div>
+              <div class="d-flex">
+                <h6 class="warning">City:</h6>
+                <h6 class="city_name mx-4">Gunzenhausen</h6>
+              </div>
+              <div class="clear"></div>
+              <div class="ar-box-fixer-2"></div>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spacer-40"></div>
+      </div>
+    </main>
+    <footer>
+      <div class="ar-block center">
+        &copy; 2023 - <a href="https://arashtad.com">Arashtad.com</a>. All
+        Rights Reserved.
+      </div>
+    </footer>
+
+    <script src="../js/jquery-3.6.1.min.js" crossorigin="anonymous"></script>
+    <script src="../js/overlay-scrollbars.min.js"></script>
+    <script src="../js/custom-jquery.js"></script>
+
+    <script>
+      const apiKey = "d6c65c7aa66340c2af7bc2582f9e2720";
+
+      async function ipLocation(apiKey) {
+        // get ip
+        const myipAPI = await fetch("https://api.ipify.org/?format=json");
+        const myIP = await myipAPI.json();
+
+        // iplocation info
+        const iplocationAPI = await fetch(
+          `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${myIP.ip}`
+        );
+        const iplocationInfo = await iplocationAPI.json();
+        presentedIplocationInDOM(iplocationInfo)
+      }
+
+    //   presented iplocation in DOM
+    function presentedIplocationInDOM(iplocationInfo) {
+        const country_name = iplocationInfo.country_name
+        const country_capital = iplocationInfo.country_capital
+        const city_name = iplocationInfo.city
+        const country_flag = iplocationInfo.country_flag
+        
+        
+        // show data in DOM
+        document.querySelector('.country_flag').src = country_flag
+        document.querySelector('.country_name').innerHTML = country_name
+        document.querySelector('.country_capital').innerHTML = country_capital
+        document.querySelector('.city_name').innerHTML = city_name
+    }
+
+
+
+       ipLocation(apiKey)
+    </script>
+  </body>
+</html>
